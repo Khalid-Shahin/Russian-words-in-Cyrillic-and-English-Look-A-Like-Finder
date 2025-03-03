@@ -1,0 +1,34 @@
+﻿Letter,Letter (upper lower),Identical  look match,Looks kinda like,One letter pick for English letter sounding,Common transliteration,Look Sound Mismatch Points,Match Points,Looks like Latin Alphabet (threshold can be set in program)
+А,Аа,A,A,a,a,0,1,1
+Б,Бб,,b,b,b,0,1,0.75
+В,Вв,B,B,v,v,0.75,0.25,1
+Г,Гг,,r,g,g,1,0,0.1
+Д,Дд,,A,d,d,1,0,0.4
+Е,Ее,E,E,y,ye / e,0.1,0.9,1
+Ё,Ёё,,E,y,yo / ë,0.4,0.6,0.9
+Ж,Жж,,X,z,zh / ž,1,0,0.6
+З,Зз,,E,z,z,1,0,0.65
+И,Ии,,N,i,i,1,0,0.8
+Й,Йй,,N,y,y / i,1,0,0.65
+К,Кк,K,K,k,k,0,1,1
+Л,Лл,,,l,l,1,1,0.15
+М,Мм,M,M,m,m,0,1,1
+Н,Нн,H,H,n,n,1,0,1
+О,Оо,O,O,o,o,0,1,1
+П,Пп,,,p,p,1,0,0.25
+Р,Рр,P,P,r,r,1,0,1
+С,Сс,C,C,s,s,0.2,0.8,1
+Т,Тт,T,T,t,t,0,1,1
+У,Уу,y,Y,u,u,0.5,0.5,1
+Ф,Фф,,O,f,f,1,0,0.6
+Х,Хх,X,X,h,kh / h,0.75,0.25,1
+Ц,Цц,,u,c,ts / c,1,0,0.75
+Ч,Чч,,u,c,ch / č,1,0,0.25
+Ш,Шш,w,W,s,sh / š,1,0,1
+Щ,Щщ,,w,s,shch / sch / šč / śś,1,0,0.75
+Ъ,Ъъ,b,b,SILENT,SILENT,1,0,0.8
+Ы,Ыы,bl,bl,y,y,1,0,1
+Ь,Ьь,b,b,SILENT,SILENT,1,0,1
+Э,Ээ,E,E,e,e / è,0,1,0.4
+Ю,Юю,,IO,y,yu,0.75,0.25,0.25
+Я,Яя,R,R,y,ya,1,0,0.9
