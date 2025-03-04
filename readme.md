@@ -19,3 +19,7 @@ And gave me the top 100 words. The words' points are based on the sum of its let
 And... There aren't that many good ones. By far the best one is "щедрой" which looks like "weapon" but it means "generous" and is pronounced shchedroy. It go the most points with a 10.95.
 
 It's a one-time run script written to just get the answer.
+
+This can be done for other Cyrillic languages too, but they may have additional letters so the table would need to be expanded for those. And their dictionaries would need to be downloaded.
+
+The same idea can be done for different alphabets versus English too. You are free to expand upon this idea, and use this code.
