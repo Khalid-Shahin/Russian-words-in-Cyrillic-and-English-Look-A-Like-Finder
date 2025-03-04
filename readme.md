@@ -1,6 +1,6 @@
 ### Just a fun project where I try to find a Russian word in Cyrillic that looks like an English word (using latin alphabet), and pronounced completely diffently.
 
-The Cyrillic (Russian) alphabet intrigues me whenever I see it while travelling, and I caught on what a lot of letters means what based on context. For example "Р" is actually an R sound, so "Russia" written in Cyrillic is "Русија" pronounced Russ-ee-ya.
+The Cyrillic (Russian) alphabet intrigues me whenever I see it while travelling, and I caught on what a lot of the letters mean what based on context. For example "Р" is actually an R sound, so "Russia" written in Cyrillic is "Русија" pronounced Russ-ee-ya.
 
 So... I came up with an intriguing idea, find a word written in Cyrillic that would look like a completely different sounding existing word in English.
 
