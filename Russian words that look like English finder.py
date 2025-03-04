@@ -1,10 +1,14 @@
 import csv
 
+from santizeWords import englishLetters
+
 cyrillicLetters = {}
 cyrillicUppercaseLookup = {}
 cyrillicLowercaseLookup = {}
-
 bestCyrillicLetters = {}
+
+latinLetters = {}
+bestEnglishLetters = {}
 
 russianLetters = []
 ignoreWordsWithTheseLetters = ['.', '-']
@@ -20,17 +24,33 @@ with open('Russian Cyrillic Letters comapred to English Latin Leters.csv', encod
             cyrillicLowercaseLookup[cyrillicLetter] = cyrillicLowercaseLetter
             russianLetters.append(cyrillicLetter)
             russianLetters.append(cyrillicLowercaseLetter)
+            similarLooking = row[3]
             lookSoundMismatch = float(row[6])
             looksLikeLatinAlphabet = float(row[8])
             points = (lookSoundMismatch*1.5)+looksLikeLatinAlphabet     #Chose 1.5 to give sound mismatch an extra weight to the points total
             bestCyrillicLetters[cyrillicLetter] = points
             cyrillicLetters[cyrillicLetter] = {
-                'similarLooking': row[3],
+                'similarLooking': similarLooking,
                 'soundsLike': row[4],
                 'lookSoundMismatch': lookSoundMismatch,
                 'looksLikeOtherAlphabet': looksLikeLatinAlphabet,
                 'points': points
             }           #'lowercase': cyrillicLowercaseLetter, 'identicalLooking': row[2],
+
+            #ALSO DOES THE REVERSE FOR ENGLISH TO CYRILLIC
+            if similarLooking:
+                englishLetter = similarLooking.upper()      #equivalent to cyrillicLetter = row[0]
+                englishLowercaseLetter = englishLetter.lower()
+                latinLetters[similarLooking] = {
+                    'similarLooking': cyrillicLetter,
+                    'lookSoundMismatch': lookSoundMismatch,
+                    'looksLikeOtherAlphabet': looksLikeLatinAlphabet,
+                    'points': points
+                }
+
+                       #'lowercase': englishLowercaseLetter
+
+
         rowNumber += 1
 
 #print(russianLetters)
@@ -64,27 +84,22 @@ for word in f:
     russianWords[word.lower()] = word #Faster than a list
 f.close()
 
-def findingWordsLookLikeAnotherLanguage(languageOne, words, letters, uppercaseLookup, languageTwo, anotherLanguageWords):      #words is language 1 (like Russian), anotherLanguageWords is language 2 (like English)
+def findingWordsLookLikeAnotherLanguage(languageOne, words, letters, languageTwo, anotherLanguageWords):      #words is language 1 (like Russian), anotherLanguageWords is language 2 (like English)
 
     wordsRated = {}                         #russianWordsRated = {}
     looksLikeAnotherLanguageWords = []      #looksLikeEnglishWords
 
     for wordKey in words:            #for wordKey in russianWords:
-        word = words[wordKey]
+        englishWordsAllUpperLower = {"upper": "", "lower": ""}
+
         languageTwoLookingWord = ""         #englishLookingWord
+        word = words[wordKey]
         totalPoints = 0
         letterMismatchSoundsPoints = 0
         looksLikeAnotherLanguagePoints = 0      #looksLikeLatinPoints
         skipWord = False
         for letter in word:
-            letterKey = letter
-            if letter in letters:
-                pass
-            elif letter in uppercaseLookup:
-                letterKey = uppercaseLookup[letter]
-            else:
-                print(letter)
-                CRASH()
+            letterKey = letter.upper()      #letterKey = uppercaseLookup[letter]
             languageTwoLookingLetter = letters[letterKey]["similarLooking"]
             if not languageTwoLookingLetter:
                 skipWord = True
@@ -109,9 +124,13 @@ def findingWordsLookLikeAnotherLanguage(languageOne, words, letters, uppercaseLo
     looksLikeAnotherLanguageWords = sorted(looksLikeAnotherLanguageWords, key=lambda x: x['totalPoints'], reverse=True) #Sort by most points to least      #looksLikeActualEnglishWords = []
     return looksLikeAnotherLanguageWords
 
-looksLikeActualEnglishWords = findingWordsLookLikeAnotherLanguage("russian", russianWords, cyrillicLetters, cyrillicUppercaseLookup, "english", englishWords)
+looksLikeActualEnglishWords = findingWordsLookLikeAnotherLanguage("russian", russianWords, cyrillicLetters, "english", englishWords)
 for wordLine in looksLikeActualEnglishWords[:200]:
     print(wordLine)
+
+#looksLikeActualRussianWords = findingWordsLookLikeAnotherLanguage("russian", russianWords, cyrillicLetters, cyrillicUppercaseLookup, "english", englishWords)
+#for wordLine in looksLikeActualRussianWords[:200]:
+#    print(wordLine)
 
 #RESULTS
 # щедрой looks like weapon  means generous
