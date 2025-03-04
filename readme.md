@@ -2,7 +2,7 @@
 
 It's a one-time run script written to just get the answer.
 
-The Cyrillic (Russian) alphabet intrigues me whenever I see it while travelling, and I caught on what a lot of the letters mean what based on context. For example "Р" is actually an R sound, so "Russia" written in Cyrillic is "Русија" pronounced Russ-ee-ya.
+The Cyrillic (Russian) alphabet intrigues me whenever I see it while travelling, and I caught on what a lot of the letters sound like based on context. For example "Р" is actually an R sound, so "Russia" written in Cyrillic is "Русија" pronounced Russ-ee-ya.
 
 So... I came up with an interesting idea, find a word written in Cyrillic that would look like a completely different sounding existing word in English.
 
