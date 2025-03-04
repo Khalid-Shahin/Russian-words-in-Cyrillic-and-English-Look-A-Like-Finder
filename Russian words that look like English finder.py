@@ -97,7 +97,7 @@ def findingWordsLookLikeAnotherLanguage(languageOne, words, letters, uppercaseLo
             ratedWord = {
                 languageOne+"Word": word,
                 languageTwo+"LookingWord": languageTwoLookingWord,
-                languageTwo+"ookingWordLowercase": languageTwoLookingWord.lower(),
+                languageTwo+"LookingWordLowercase": languageTwoLookingWord.lower(),
                 "totalPoints": totalPoints,
                 "letterMismatchSoundsPoints": letterMismatchSoundsPoints,
                 "looksLike"+languageTwo.capitalize()+"AlphabetPoints": looksLikeAnotherLanguagePoints
