@@ -22,7 +22,7 @@ with open('Russian Cyrillic Letters comapred to English Latin Leters.csv', encod
             russianLetters.append(cyrillicLowercaseLetter)
             lookSoundMismatch = float(row[6])
             looksLikeLatinAlphabet = float(row[8])
-            points = (lookSoundMismatch*1.5)+looksLikeLatinAlphabet
+            points = (lookSoundMismatch*1.5)+looksLikeLatinAlphabet     #Chose 1.5 to give sound mismatch an extra weight to the points total
             bestCyrillicLetters[cyrillicLetter] = points
             cyrillicLetters[cyrillicLetter] = {
                 'similarLooking': row[3],
@@ -43,10 +43,11 @@ bestCyrillicLetters = {k: v for k, v in sorted(bestCyrillicLetters.items(), key=
 mismatchSoundThreshold = 0      #Threshold for how different the words sound, I'll increase it later
 acceptableThreshold = 0.3       #Threshold for Cyrillic looking similar to Latin letters, it doesn't consider Russian words with Cyrillic letters below this threshold
 
-#FIND SIMILAR LOOKING
-#ANY
-#Synonyms
-#Antonyms
+#Didn't end up doing this because of how few impressive words there are
+    #FIND SIMILAR LOOKING
+    #ANY
+    #Synonyms
+    #Antonyms
 
 englishWords = {}
 russianWords = {}
