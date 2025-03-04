@@ -16,7 +16,7 @@ Made that table, downloaded a list of Russian words. Got a list of English words
 
 And gave me the top 100 words. The words' points are based on the sum of its letters' points.
 
-And... There aren't that many good ones. **By far the best one is "щедрой" which looks like "weapon" but it means "generous" and is pronounced shchedroy.** It go the most points with a 10.95.
+And... There aren't that many good ones. **By far the best one is "щедрой" which looks like "weapon" and it means "generous" in Russian and is pronounced shchedroy.** It go the most points with a 10.95.
 
 It's a one-time run script written to just get the answer.
 
