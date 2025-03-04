@@ -10,7 +10,7 @@ For example the Russian word "нога" looks like "Hora" but it's pronounced no
 
 But I want something interesting, like synonym or an antonym, whcih I don't end up getting that. Or a word that's longer.
 
-So I made a table with the Cyrillic alphabet (the .csv file) and what closest looking letter to it in the Latin script and awarded "points" based on how much they match the look of a Latin alphabet, and even more points dissimilar the sounds are.
+So I made a table with the Cyrillic alphabet (the .csv file) and what closest looking letter to it in the Latin script and awarded "points" based on how much they match the look of a Latin alphabet, and even more points for how dissimilar the sounds are.
 
 For example the Cyrillic letter "Ш" looks a lot like W so I gave it the maximum points for look, and it's pronounced "sh" which is completely different sounding than "w" so I gave it maximum points for sound too.
 
