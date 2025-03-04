@@ -2,13 +2,13 @@
 
 The Cyrillic (Russian) alphabet intrigues me whenever I see it while travelling, and I caught on what a lot of the letters mean what based on context. For example "Р" is actually an R sound, so "Russia" written in Cyrillic is "Русија" pronounced Russ-ee-ya.
 
-So... I came up with an intriguing idea, find a word written in Cyrillic that would look like a completely different sounding existing word in English.
+So... I came up with an interesting idea, find a word written in Cyrillic that would look like a completely different sounding existing word in English.
 
 For example the Russian word "нога" looks like "Hora" but it's pronounced noga, and means leg.
 
-But I want something interesting, like synonym or an antonym. (spoilers I don't end up getting that) Or a word that's longer.
+But I want something interesting, like synonym or an antonym, whcih I don't end up getting that. Or a word that's longer.
 
-So I made a table with the Cyrillic alphabet and what closest looking letter to it in the Latin script and awarded "points" based on how much they match the look of a Latin alphabet, and even more points dissimilar the sounds are.
+So I made a table with the Cyrillic alphabet (the .csv file) and what closest looking letter to it in the Latin script and awarded "points" based on how much they match the look of a Latin alphabet, and even more points dissimilar the sounds are.
 
 For example the Cyrillic letter "Ш" looks a lot like W so I gave it the maximum points for look, and it's pronounced "sh" which is completely different sounding that "w" so I gave it maximum points sound.
 
