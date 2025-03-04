@@ -39,6 +39,7 @@ bestCyrillicLetters = {k: v for k, v in sorted(bestCyrillicLetters.items(), key=
 
 #print(bestCyrillicLetters)
 
+#I didn't end up using these thresholds, the list of good words was much shorter than I thought it would be.
 mismatchSoundThreshold = 0      #Threshold for how different the words sound, I'll increase it later
 acceptableThreshold = 0.3       #Threshold for Cyrillic looking similar to Latin letters, it doesn't consider Russian words with Cyrillic letters below this threshold
 
