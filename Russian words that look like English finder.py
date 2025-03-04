@@ -28,14 +28,14 @@ with open('Russian Cyrillic Letters comapred to English Latin Leters.csv', encod
             lookSoundMismatch = float(row[6])
             looksLikeLatinAlphabet = float(row[8])
             points = (lookSoundMismatch*1.5)+looksLikeLatinAlphabet     #Chose 1.5 to give sound mismatch an extra weight to the points total
-            bestCyrillicLetters[cyrillicLetter] = points
-            cyrillicLetters[cyrillicLetter] = {
+            bestCyrillicLetters[cyrillicLowercaseLetter] = points
+            cyrillicLetters[cyrillicLowercaseLetter] = {
                 'similarLooking': similarLooking,
                 'soundsLike': row[4],
                 'lookSoundMismatch': lookSoundMismatch,
                 'looksLikeOtherAlphabet': looksLikeLatinAlphabet,
                 'points': points
-            }           #'lowercase': cyrillicLowercaseLetter, 'identicalLooking': row[2],
+            }           #'lowercase': cyrillicLowercaseLetter, 'uppercase': cyrillicLetter, 'identicalLooking': row[2],
 
             #ALSO DOES THE REVERSE FOR ENGLISH TO CYRILLIC
             if similarLooking:
@@ -84,53 +84,67 @@ for word in f:
     russianWords[word.lower()] = word #Faster than a list
 f.close()
 
-def findingWordsLookLikeAnotherLanguage(languageOne, words, letters, languageTwo, anotherLanguageWords):      #words is language 1 (like Russian), anotherLanguageWords is language 2 (like English)
+def findingWordsLookLikeAnotherLanguage(languageOne, words, letters, lowerIsSameAsUpper, languageTwo, anotherLanguageWords):      #words is language 1 (like Russian), anotherLanguageWords is language 2 (like English)
+
+    upperLowerPasses = 2
+    if lowerIsSameAsUpper:
+        upperLowerPasses = 1
 
     wordsRated = {}                         #russianWordsRated = {}
     looksLikeAnotherLanguageWords = []      #looksLikeEnglishWords
 
     for wordKey in words:            #for wordKey in russianWords:
-        englishWordsAllUpperLower = {"upper": "", "lower": ""}
+        languageOneWordsAllLowerUpper = {"lower": "", "upper": ""}
 
-        languageTwoLookingWord = ""         #englishLookingWord
-        word = words[wordKey]
-        totalPoints = 0
-        letterMismatchSoundsPoints = 0
-        looksLikeAnotherLanguagePoints = 0      #looksLikeLatinPoints
-        skipWord = False
-        for letter in word:
-            letterKey = letter.upper()      #letterKey = uppercaseLookup[letter]
-            languageTwoLookingLetter = letters[letterKey]["similarLooking"]
-            if not languageTwoLookingLetter:
-                skipWord = True
-            languageTwoLookingWord += languageTwoLookingLetter  #englishLookingLEtter
-            totalPoints += letters[letterKey]["points"]
-            letterMismatchSoundsPoints += letters[letterKey]["lookSoundMismatch"]
-            looksLikeAnotherLanguagePoints += letters[letterKey]["looksLikeOtherAlphabet"]      #"looksLikeOtherAlphabet"
+        for i in range(upperLowerPasses):  #Does one pass, or two passes for all upper and lowercase
+            languageTwoLookingWord = ""         #englishLookingWord
+            word = words[wordKey]
+            if i == 1:
+                word = word.upper()
+            totalPoints = 0
+            letterMismatchSoundsPoints = 0
+            looksLikeAnotherLanguagePoints = 0      #looksLikeLatinPoints
+            skipWord = False
+            for letter in word:
+                #letterKey = letter.upper()      #letterKey = uppercaseLookup[letter]
+                letterKey = letter
+                if i == 1:
+                    letterKey = letter.upper()
+                if letterKey not in letters:
+                    skipWord = True
+                else:
+                    languageTwoLookingLetter = letters[letterKey]["similarLooking"]
+                    if not languageTwoLookingLetter:
+                        skipWord = True
+                    languageTwoLookingWord += languageTwoLookingLetter  #englishLookingLEtter
+                    totalPoints += letters[letterKey]["points"]
+                    letterMismatchSoundsPoints += letters[letterKey]["lookSoundMismatch"]
+                    looksLikeAnotherLanguagePoints += letters[letterKey]["looksLikeOtherAlphabet"]      #"looksLikeOtherAlphabet"
 
-        if not skipWord and languageTwoLookingWord.lower() in anotherLanguageWords and word not in wordsRated:
-            ratedWord = {
-                languageOne+"Word": word,
-                languageTwo+"LookingWord": languageTwoLookingWord,
-                languageTwo+"LookingWordLowercase": languageTwoLookingWord.lower(),
-                "totalPoints": totalPoints,
-                "letterMismatchSoundsPoints": letterMismatchSoundsPoints,
-                "looksLike"+languageTwo.capitalize()+"AlphabetPoints": looksLikeAnotherLanguagePoints
-            }
-            wordsRated[word] = ratedWord
-            looksLikeAnotherLanguageWords.append(ratedWord)
-            #print(russianWordsRated[word])
+            if i == 0:
+                languageOneWordsAllLowerUpper["lower"] = languageTwoLookingWord
+            else:
+                languageOneWordsAllLowerUpper["upper"] = languageTwoLookingWord
+
+            if not skipWord and languageTwoLookingWord.lower() in anotherLanguageWords and word not in wordsRated and (i == 0 or languageOneWordsAllLowerUpper["lower"] == "" or languageOneWordsAllLowerUpper["lower"] != languageOneWordsAllLowerUpper["upper"].lower()):
+                ratedWord = {
+                    languageOne+"Word": word,
+                    languageTwo+"LookingWord": languageTwoLookingWord,
+                    languageTwo+"LookingWordLowercase": languageTwoLookingWord.lower(),
+                    "totalPoints": totalPoints,
+                    "letterMismatchSoundsPoints": letterMismatchSoundsPoints,
+                    "looksLike"+languageTwo.capitalize()+"AlphabetPoints": looksLikeAnotherLanguagePoints
+                }
+                wordsRated[word] = ratedWord
+                looksLikeAnotherLanguageWords.append(ratedWord)
+                #print(russianWordsRated[word])
 
     looksLikeAnotherLanguageWords = sorted(looksLikeAnotherLanguageWords, key=lambda x: x['totalPoints'], reverse=True) #Sort by most points to least      #looksLikeActualEnglishWords = []
     return looksLikeAnotherLanguageWords
 
-looksLikeActualEnglishWords = findingWordsLookLikeAnotherLanguage("russian", russianWords, cyrillicLetters, "english", englishWords)
+looksLikeActualEnglishWords = findingWordsLookLikeAnotherLanguage("russian", russianWords, cyrillicLetters, True, "english", englishWords)
 for wordLine in looksLikeActualEnglishWords[:200]:
     print(wordLine)
-
-#looksLikeActualRussianWords = findingWordsLookLikeAnotherLanguage("russian", russianWords, cyrillicLetters, cyrillicUppercaseLookup, "english", englishWords)
-#for wordLine in looksLikeActualRussianWords[:200]:
-#    print(wordLine)
 
 #RESULTS
 # щедрой looks like weapon  means generous
@@ -141,3 +155,11 @@ for wordLine in looksLikeActualEnglishWords[:200]:
 # веер  looks like  Beep    means fan
 # мочит looks like  MOUNT   means wets
 # суди  looks like CYAN     means judge (verb)
+
+print("\n\n-------------------------\n\n")
+
+looksLikeActualRussianWords = findingWordsLookLikeAnotherLanguage("english", englishWords, latinLetters, False, "russian", russianWords)
+for wordLine in looksLikeActualRussianWords[:50]:
+    print(wordLine)
+
+#Not much for good results for English to Cyrillic other than ТУРФ, which sounds like turf and means turf. Yeah this one's not very good.
