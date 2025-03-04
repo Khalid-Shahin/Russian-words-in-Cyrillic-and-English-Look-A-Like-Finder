@@ -12,7 +12,7 @@ But I want something interesting, like synonym or an antonym, whcih I don't end 
 
 So I made a table with the Cyrillic alphabet (the .csv file) and what closest looking letter to it in the Latin script and awarded "points" based on how much they match the look of a Latin alphabet, and even more points dissimilar the sounds are.
 
-For example the Cyrillic letter "Ш" looks a lot like W so I gave it the maximum points for look, and it's pronounced "sh" which is completely different sounding that "w" so I gave it maximum points sound.
+For example the Cyrillic letter "Ш" looks a lot like W so I gave it the maximum points for look, and it's pronounced "sh" which is completely different sounding that "w" so I gave it maximum points for sound.
 
 Made that table, downloaded a list of Russian words. Got a list of English words. Made a Python script to go through the Russian words and find similar looking English words.
 
