@@ -28,7 +28,7 @@ with open('Russian Cyrillic Letters comapred to English Latin Leters.csv', encod
                 'similarLooking': row[3],
                 'soundsLike': row[4],
                 'lookSoundMismatch': lookSoundMismatch,
-                'looksLikeLatinAlphabet': looksLikeLatinAlphabet,
+                'looksLikeOtherAlphabet': looksLikeLatinAlphabet,
                 'points': points
             }           #'lowercase': cyrillicLowercaseLetter, 'identicalLooking': row[2],
         rowNumber += 1
@@ -49,49 +49,65 @@ acceptableThreshold = 0.3       #Threshold for Cyrillic looking similar to Latin
 #Antonyms
 
 englishWords = {}
+russianWords = {}
 
 f = open("english-sanitized.txt", "r", encoding='utf8')
 for word in f:
-    word = word.strip().lower()
-    englishWords[word] = "" #Faster than a list
+    word = word.strip()
+    englishWords[word.lower()] = word #Faster than a list
 f.close()
 
 f = open("russian-sanitized.txt", "r", encoding='utf8')
-
-russianWordsRated = {}
-looksLikeActualEnglishWords = []
-
 for word in f:
     word = word.strip()
-    englishLookingWord = ""
-    totalPoints = 0
-    letterMismatchSoundsPoints = 0
-    looksLikeLatinPoints = 0
-    skipWord = False
-    for letter in word:
-        letterKey = letter
-        if letter in cyrillicLetters:
-            pass
-        elif letter in cyrillicUppercaseLookup:
-            letterKey = cyrillicUppercaseLookup[letter]
-        else:
-            print(letter)
-            CRASH()
-        englishLookingLetter = cyrillicLetters[letterKey]["similarLooking"]
-        if not englishLookingLetter:
-            skipWord = True
-        englishLookingWord += englishLookingLetter
-        totalPoints += cyrillicLetters[letterKey]["points"]
-        letterMismatchSoundsPoints += cyrillicLetters[letterKey]["lookSoundMismatch"]
-        looksLikeLatinPoints += cyrillicLetters[letterKey]["looksLikeLatinAlphabet"]
-    russianWordsRated[word] = {"russianWord": word, "englishLookingWord": englishLookingWord, "englishLookingWordLowercase": englishLookingWord.lower(), "totalPoints": totalPoints, "letterMismatchSoundsPoints": letterMismatchSoundsPoints, "looksLikeLatinPoints": looksLikeLatinPoints}
-    if not skipWord and englishLookingWord.lower() in englishWords:
-        looksLikeActualEnglishWords.append(russianWordsRated[word])
-        #print(russianWordsRated[word])
-
+    russianWords[word.lower()] = word #Faster than a list
 f.close()
 
-looksLikeActualEnglishWords = sorted(looksLikeActualEnglishWords, key=lambda x: x['totalPoints'], reverse=True) #Sort by most points to least
+def findingWordsLookLikeAnotherLanguage(languageOne, words, letters, uppercaseLookup, languageTwo, anotherLanguageWords):      #words is language 1 (like Russian), anotherLanguageWords is language 2 (like English)
+
+    wordsRated = {}                         #russianWordsRated = {}
+    looksLikeAnotherLanguageWords = []      #looksLikeEnglishWords
+
+    for wordKey in words:            #for wordKey in russianWords:
+        word = words[wordKey]
+        languageTwoLookingWord = ""         #englishLookingWord
+        totalPoints = 0
+        letterMismatchSoundsPoints = 0
+        looksLikeAnotherLanguagePoints = 0      #looksLikeLatinPoints
+        skipWord = False
+        for letter in word:
+            letterKey = letter
+            if letter in letters:
+                pass
+            elif letter in uppercaseLookup:
+                letterKey = uppercaseLookup[letter]
+            else:
+                print(letter)
+                CRASH()
+            languageTwoLookingLetter = letters[letterKey]["similarLooking"]
+            if not languageTwoLookingLetter:
+                skipWord = True
+            languageTwoLookingWord += languageTwoLookingLetter  #englishLookingLEtter
+            totalPoints += letters[letterKey]["points"]
+            letterMismatchSoundsPoints += letters[letterKey]["lookSoundMismatch"]
+            looksLikeAnotherLanguagePoints += letters[letterKey]["looksLikeOtherAlphabet"]      #"looksLikeOtherAlphabet"
+
+        if not skipWord and languageTwoLookingWord.lower() in anotherLanguageWords and word not in wordsRated:
+            wordsRated[word] = {
+                languageOne+"Word": word,
+                languageTwo+"LookingWord": languageTwoLookingWord,
+                languageTwo+"ookingWordLowercase": languageTwoLookingWord.lower(),
+                "totalPoints": totalPoints,
+                "letterMismatchSoundsPoints": letterMismatchSoundsPoints,
+                "looksLike"+languageTwo.capitalize()+"AlphabetPoints": looksLikeAnotherLanguagePoints
+            }
+            looksLikeAnotherLanguageWords.append(wordsRated[word])
+            #print(russianWordsRated[word])
+
+    looksLikeAnotherLanguageWords = sorted(looksLikeAnotherLanguageWords, key=lambda x: x['totalPoints'], reverse=True) #Sort by most points to least      #looksLikeActualEnglishWords = []
+    return looksLikeAnotherLanguageWords
+
+looksLikeActualEnglishWords = findingWordsLookLikeAnotherLanguage("russian", russianWords, cyrillicLetters, cyrillicUppercaseLookup, "english", englishWords)
 for wordLine in looksLikeActualEnglishWords[:200]:
     print(wordLine)
 
